@@ -1,0 +1,32 @@
+﻿@using MealBox.Models.Classes
+@model List<Category>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<table class="table table-bordered" style="margin top:20px">
+    <tr>
+        <th>ID</th>
+        <th>Kategori Name</th>
+        <td><a href="#"> </a></td>
+        <td><a href="#"> </a></td>
+
+    </tr>
+
+    @foreach(var k in Model)
+    {
+        <tr>
+            <td>@k.CategoryID</td>
+            <td>@k.CategoryName</td>
+            <td><a href="/Category/GetCategory/@k.CategoryID" class="btn btn-success">Güncelle </a></td>
+            <td><a href="/Category/RemoveCategory/@k.CategoryID" class="btn btn-danger">Sil </a></td>
+
+        </tr>
+
+
+    }
+   
+</table>
+<a href="/Category/AddCategory" class="btn btn-primary">Kategori ekle</a>
