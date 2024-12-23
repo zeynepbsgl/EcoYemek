@@ -6,61 +6,66 @@
 
 <h2>Yeni Ürün Ekle</h2>
 <br/>
-<form class="form-group" method="post">
-    <div class="form-group">
-        @Html.LabelFor(x => x.ProductName, new { @class = "control-label" }) <span class="text-danger">*</span>
-        @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control", required = "required" })
-       <!-- Zorunlu kırmızı yıldız -->
-    </div>
-    @Html.LabelFor(x => x.ProductDescription)
-    @Html.TextBoxFor(x => x.ProductDescription, new { @class = "form-control" })
-    <br />
-    @Html.LabelFor(x => x.Brand)
-    @Html.TextBoxFor(x => x.Brand, new { @class = "form-control" })
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(x => x.skt, new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.TextBoxFor(x => x.skt, new { @class = "form-control", required = "required" })
-        <!-- Zorunlu kırmızı yıldız -->
-    </div>
-   
-    @Html.LabelFor(x => x.Stock)
-    @Html.TextBoxFor(x => x.Stock, new { @class = "form-control" })
-    <br />
-    <div class="form-group">
-        @Html.LabelFor(x => x.Price, new { @class = "control-label" })<span class="text-danger">*</span>
-        @Html.TextBoxFor(x => x.Price, new { @class = "form-control", required = "required" })
-        <!-- Zorunlu kırmızı yıldız -->
-    </div>
-    @Html.LabelFor(x => x.Status)
-    @Html.TextBoxFor(x => x.Status, new { @class = "form-control" })
-    <br />
-    @Html.LabelFor(x => x.Image)
-    @Html.TextBoxFor(x => x.Image, new { @class = "form-control" })
-    <br />
-    <div>
-        @Html.LabelFor(x => x.Category.CategoryID)<span class="text-danger">*</span>
-        @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.val1, new { @class = "form-control" })
-    </div>
+<div class=" container-fluid p-5">
+    <form class="form-group" method="post">
+        <div class="form-group">
+            @Html.LabelFor(x => x.ProductName, new { @class = "control-label" }) <span class="text-danger">*</span>
+            @Html.TextBoxFor(x => x.ProductName, new { @class = "form-control", required = "required" })
+            <!-- Zorunlu kırmızı yıldız -->
+        </div>
+        @Html.LabelFor(x => x.ProductDescription)
+        @Html.TextBoxFor(x => x.ProductDescription, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.Brand)
+        @Html.TextBoxFor(x => x.Brand, new { @class = "form-control" })
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(x => x.skt, new { @class = "control-label" })<span class="text-danger">*</span>
+            @Html.TextBoxFor(x => x.skt, new { @class = "form-control", required = "required" })
+            <!-- Zorunlu kırmızı yıldız -->
+        </div>
 
-    @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@
-    <br />
-    @Html.LabelFor(x => x.Province)
-    @Html.TextBoxFor(x => x.Province, new { @class = "form-control" })
-    <br />
-    @Html.LabelFor(x => x.Town)
-    @Html.TextBoxFor(x => x.Town, new { @class = "form-control" })
-    <br />
-    @Html.LabelFor(x => x.District)
-    @Html.TextBoxFor(x => x.District, new { @class = "form-control" })
-    <br />
-    <div>
-        @Html.LabelFor(x => x.AdminId)<span class="text-danger">*</span>
-        @Html.TextBoxFor(x => x.AdminId, new { @class = "form-control" })
-    </div>
-  
-    <br/>
-    <button class="btn btn-primary">Kaydet</button>
+        @Html.LabelFor(x => x.Stock)
+        @Html.TextBoxFor(x => x.Stock, new { @class = "form-control" })
+        <br />
+        <div class="form-group">
+            @Html.LabelFor(x => x.Price, new { @class = "control-label" })<span class="text-danger">*</span>
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", required = "required" })
+            <!-- Zorunlu kırmızı yıldız -->
+        </div>
+        @Html.LabelFor(x => x.Status)
+        @Html.TextBoxFor(x => x.Status, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.Image)
+        @Html.TextBoxFor(x => x.Image, new { @class = "form-control" })
+        <br />
+        <div>
+            @Html.LabelFor(x => x.Category.CategoryID)<span class="text-danger">*</span>
+            @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.val1, new { @class = "form-control" })
+        </div>
 
-</form>
+        @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@
+        <br />
+        @Html.LabelFor(x => x.Province)
+        @Html.TextBoxFor(x => x.Province, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.Town)
+        @Html.TextBoxFor(x => x.Town, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.District)
+        @Html.TextBoxFor(x => x.District, new { @class = "form-control" })
+        <br />
+        <div>
+            @Html.LabelFor(x => x.AdminId)<span class="text-danger">*</span>
+            @Html.TextBoxFor(x => x.AdminId, new { @class = "form-control" })
+        </div>
+
+        <br />
+        <button class="btn btn-primary">Kaydet</button>
+
+      
+
+    </form>
+
+</div>
 

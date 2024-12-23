@@ -10,8 +10,7 @@ namespace MealBox.Models.Classes
 
         [Key]
 
-        [Column(TypeName = "Varchar")]
-        [StringLength(30)]
+       
         public int AdminID { get; set; }
         [Column(TypeName = "Varchar")]
         [StringLength(30)]
@@ -34,7 +33,10 @@ namespace MealBox.Models.Classes
 		public string? City { get; set; } 
         [Column(TypeName = "Varchar")]
 		[StringLength(250)]
-		public string? Address { get; set; } 
+		public string? Address { get; set; }
+        [Column(TypeName = "Varchar")]
+        [StringLength(250)]
+        public string Mail { get; set; }
         [Column(TypeName = "Varchar")]
 		[StringLength(30)]
 		public string Phone { get; set; } 

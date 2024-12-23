@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MealBox.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20241128014549_mig2")]
-    partial class mig2
+    [Migration("20241215213345_firstmig")]
+    partial class firstmig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,10 +27,11 @@ namespace MealBox.Migrations
 
             modelBuilder.Entity("MealBox.Models.Classes.Admin", b =>
                 {
-                    b.Property<string>("AdminID")
+                    b.Property<int>("AdminID")
                         .ValueGeneratedOnAdd()
-                        .HasMaxLength(30)
-                        .HasColumnType("Varchar");
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AdminID"));
 
                     b.Property<string>("Address")
                         .HasMaxLength(250)
@@ -50,6 +51,11 @@ namespace MealBox.Migrations
 
                     b.Property<string>("Gender")
                         .HasMaxLength(30)
+                        .HasColumnType("Varchar");
+
+                    b.Property<string>("Mail")
+                        .IsRequired()
+                        .HasMaxLength(250)
                         .HasColumnType("Varchar");
 
                     b.Property<string>("Name")
@@ -107,9 +113,8 @@ namespace MealBox.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductID"));
 
-                    b.Property<string>("AdminId")
-                        .IsRequired()
-                        .HasColumnType("Varchar(30)");
+                    b.Property<int>("AdminId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Brand")
                         .HasMaxLength(30)

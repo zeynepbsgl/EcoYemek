@@ -73,15 +73,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			</div>
 			<div class="register-right">
 				<div class="register-in">
-					<a class="book popup-with-zoom-anim button-isi zoomIn animated" data-wow-delay=".5s" href="#small-dialog2">Yeni Kullanıcı Kaydı</a>
+					<a class="book popup-with-zoom-anim button-isi zoomIn animated" data-wow-delay=".5s" href="#small-dialog2">Kayıt ol</a>
 				</div>
 				<div class="register-in middle">
 					<a class="book popup-with-zoom-anim button-isi zoomIn animated" data-wow-delay=".5s" href="#small-dialog">Giriş Yap</a>
 				</div>
-				<div class="register-in">
-					<a class="book popup-with-zoom-anim button-isi zoomIn animated" data-wow-delay=".5s" href="#small-dialog1">Subscribe here »</a>
-				</div>
-				<div class="clear"> </div>
+				
+				
 			</div>
 			<div class="clear"> </div>
 		</div>
@@ -100,7 +98,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<span class="fa fa-lock"></span>
 					<div class="clear"></div>
 					<div class="login-agileits-top">
-						<form action="#" method="post">
+						<form action="#" 
+						method="post">
 							<input type="text" class="name" name="user name" Placeholder="Mail Adresi" required="" />
 							<input type="password" class="password" name="Password" Placeholder="Şifre" required="" />
 							<input type="submit" value="Giriş Yap">
@@ -115,33 +114,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>
 	</div>
 	<!-- //login form popup-->
-	<!-- subscribe form popup-->
-	<div class="pop-up">
-		<div id="small-dialog1" class="mfp-hide book-form">
-
-			<div class="login-form login-form-left">
-				<div class="agile-row">
-					<h3>Be the first to hear</h3>
-					<p>Sign up to get notified about latest offers, news and events. Stay tuned!</p>
-					<div class="clear"></div>
-					<div class="login-agileits-top">
-						<form action="#" method="post">
-							<input type="text" class="name" name="name" Placeholder="Full Name" required="" />
-							<input type="email" class="email" name="email" Placeholder="Email" required="" />
-							<input type="submit" value="Get Notified">
-						</form>
-					</div>
-				</div>
-			</div>
-
-		</div>
-	</div>
-	<!-- //subscribe form popup-->
+	
 	<!-- register form popup-->
 	<div class="pop-up">
 		<div id="small-dialog2" class="mfp-hide book-form">
 
-			@await Html.PartialAsync("Partial1", "Login");
+			@await Html.PartialAsync("Partial1", "Login")
 
 		</div>
 	</div>

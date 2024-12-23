@@ -50,6 +50,11 @@ namespace MealBox.Models.Classes
         [StringLength(50)]
         public bool? Solded { get; set; }
 
+        [Column(TypeName = "decimal(9,6)")]
+        public decimal? Latitude { get; set; } // Enlem
+
+        [Column(TypeName = "decimal(9,6)")]
+        public decimal? Longitude { get; set; } // Boylam
 
     }
 }

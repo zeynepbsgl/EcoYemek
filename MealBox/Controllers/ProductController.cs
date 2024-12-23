@@ -13,10 +13,12 @@ namespace MealBox.Controllers
         Context c = new Context();
         public IActionResult Index()
         {
+            //Ürünlerle ilişkili category ve yöneticileri dahil ederek status= true ürünleri listeler
             var product = c.Products.Include(x => x.Category).Include(x => x.Admin).Where(x=>x.Status==true).ToList();
             
             return View(product);
         }
+        //Ürün ekleme sayfasına yönlendirme yapar
         [HttpGet]
         public ActionResult NewProduct()
         {
@@ -31,10 +33,9 @@ namespace MealBox.Controllers
             ViewBag.val1=value1;
             return View();
         }
+        //Yeni ürünleri veritanbanına kaydeder ve Indexe yönlendirme yapar.
         [HttpPost]
         public ActionResult NewProduct(Product p)
-
-
         {
             if (!p.Status.HasValue)
             {
@@ -45,6 +46,7 @@ namespace MealBox.Controllers
             return RedirectToAction("Index");
 
         }
+        //Veritabanından id yi bulur pasif hale getirir
         public ActionResult DeleteProduct(int id)
         {
             var value = c.Products.Find(id);
@@ -53,6 +55,7 @@ namespace MealBox.Controllers
             c.SaveChanges();
             return RedirectToAction("Index");
         }
+        // Güncellenecek ürünü bulur detaylarını alır
         public ActionResult GetProduct(int id) {
             //DropdownList
             List<SelectListItem> value1 = (from x in c.Categorys.ToList()
@@ -66,6 +69,7 @@ namespace MealBox.Controllers
             var productValue = c.Products.Find(id);
             return View("GetProduct",productValue);
         }
+        //GÜncelleme işlemi yapar
         public ActionResult UpdateProduct(Product p) { 
             var prodct = c.Products.Find(p.ProductID);
             prodct.Status = p.Status;
