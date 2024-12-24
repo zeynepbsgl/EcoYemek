@@ -59,6 +59,8 @@
             @Html.LabelFor(x => x.AdminId)<span class="text-danger">*</span>
             @Html.TextBoxFor(x => x.AdminId, new { @class = "form-control" })
         </div>
+        <input type="hidden" id="Latitude" name="Latitude" />
+        <input type="hidden" id="Longitude" name="Longitude" />
 
         <br />
         <button class="btn btn-primary">Kaydet</button>
@@ -68,4 +70,35 @@
     </form>
 
 </div>
+
+@* Tarayıcı konum alma *@
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
+                    console.log("Latitude:", position.coords.latitude);
+                    console.log("Longitude:", position.coords.longitude);
+
+                    var latitude = position.coords.latitude;
+                    var longitude = position.coords.longitude;
+
+
+                    // Doğrudan noktalı formatta gönder
+                    document.getElementById("Latitude").value = latitude;
+                    document.getElementById("Longitude").value = longitude;
+                },
+                function (error) {
+                    alert("Konum bilgisi alınamadı.");
+                }
+            );
+        } else {
+            alert("Tarayıcınız konum desteği sağlamıyor.");
+        }
+    });
+
+
+   
+
+</script>
 

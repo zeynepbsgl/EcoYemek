@@ -41,9 +41,22 @@ namespace MealBox.Controllers
             {
                 p.Status = true;  // Status'ü true olarak ayarlıyoruz.
             }
+
+
+            // Eğer gelen veri virgül ile geliyorsa, bunu nokta ile değiştirebilirsiniz
+            double latitude = Convert.ToDouble(Request.Form["Latitude"].ToString().Replace(',', '.'));
+            double longitude = Convert.ToDouble(Request.Form["Longitude"].ToString().Replace(',', '.'));
+
+            p.Latitude = latitude;
+            p.Longitude = longitude;
+
+
             c.Products.Add(p);
             c.SaveChanges();
+
             return RedirectToAction("Index");
+
+
 
         }
         //Veritabanından id yi bulur pasif hale getirir
