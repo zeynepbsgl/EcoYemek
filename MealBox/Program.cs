@@ -1,12 +1,28 @@
 using Microsoft.Extensions.FileProviders;
-
+using MealBox.Models.Classes;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
+using MealBox.Models.Classes;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<Context>();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddSession();
+
+// Authentication ve Authorization ekleniyor
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Login/Index"; // Login sayfasÄ±nÄ±n yolu
+        options.AccessDeniedPath = "/Login/Index";
+
+    });
+
 
 var app = builder.Build();
 
@@ -18,21 +34,22 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(); // wwwroot altýndaki dosyalar için
+app.UseStaticFiles(); // wwwroot altÃ½ndaki dosyalar iÃ§in
 
-// web klasörü için yeni statik dosya ayarlarý
+// web klasÃ¶rÃ¼ iÃ§in yeni statik dosya ayarlarÃ½
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "web")), // "web" klasörüne iþaret eder
-    RequestPath = "/web"  // URL'deki /web ile eriþilecek
+        Path.Combine(builder.Environment.ContentRootPath, "web")), // "web" klasÃ¶rÃ¼ne iÃ¾aret eder
+    RequestPath = "/web"  // URL'deki /web ile eriÃ¾ilecek
 });
 
 app.UseRouting();
 app.UseAuthorization();
-
+app.UseAuthentication();
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();
