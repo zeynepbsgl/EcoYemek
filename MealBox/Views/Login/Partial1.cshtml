@@ -1,25 +1,23 @@
-﻿
+@using MealBox.Models.Classes
+
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model User
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 <div class="login-form login-form-left">
 	<div class="agile-row">
 		<h3>Kayıt Formu</h3>
 		<div class="login-agileits-top">
-			<form method="post" >
-				<input type="text" class="name" name="Name" Placeholder="Adınız" required="" />
-				<input type="text" class="name" name="Surname" Placeholder="Soyadınız" required="" />
-				<input type="text" class="name" name="Mail" Placeholder="Email" required="" />
-				<input type="text" class="name" name="Phone" Placeholder="Telefon Numarası" required="" />
-				<input type="password" class="name" name="Password" Placeholder="Şifre" required="" />
-				@* <input type="password" class="name" name="ConfirmPassword" Placeholder="Şifre Yeniden" required="" /> *@
-				@* <div class="login-check">
-					<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Kuralları okudum &amp; Kabul ediyorum</a></label>
-				</div> *@
+				<form method="post" asp-controller="Login" asp-action="Register">
+				<input type="text" class="name" asp-for="Name" placeholder="Adınız" required />
+				<input type="text" class="name" asp-for="Surname" placeholder="Soyadınız" required />
+				<input type="text" class="name" asp-for="Mail" placeholder="Email" required />
+				<input type="text" class="name" asp-for="Phone" placeholder="Telefon Numarası" required />
+				<input type="password" class="name" asp-for="Password" placeholder="Şifre" required />
 				<input type="submit" value="Kayıt Ol">
 			</form>
 		</div>
-		
-
 	</div>
 </div>
+
