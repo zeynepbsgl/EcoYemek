@@ -43,10 +43,11 @@ namespace MealBox.Models.Classes
 
         public Category Category { get; set; }
 
-        public int AdminId {  get; set; }
-		public Admin Admin { get; set; }
+        public int UserId { get; set; } // Foreign Key
+        public User User { get; set; }    // Navigation Property
+    
 
-        [Column(TypeName = "Varchar")]
+    [Column(TypeName = "Varchar")]
         [StringLength(50)]
         public bool? Solded { get; set; }
 

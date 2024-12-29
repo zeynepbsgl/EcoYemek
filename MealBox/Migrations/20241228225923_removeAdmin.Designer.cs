@@ -4,6 +4,7 @@ using MealBox.Models.Classes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MealBox.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20241228225923_removeAdmin")]
+    partial class removeAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +40,7 @@ namespace MealBox.Migrations
 
                     b.HasKey("CategoryID");
 
-                    b.ToTable("Categorys", (string)null);
+                    b.ToTable("Categorys");
                 });
 
             modelBuilder.Entity("MealBox.Models.Classes.Product", b =>
@@ -113,7 +116,7 @@ namespace MealBox.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MealBox.Models.Classes.User", b =>
@@ -146,7 +149,7 @@ namespace MealBox.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("MealBox.Models.Classes.Product", b =>

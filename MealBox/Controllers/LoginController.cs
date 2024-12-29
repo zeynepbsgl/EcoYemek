@@ -31,13 +31,7 @@ namespace MealBox.Controllers
             return PartialView();
         }
 
-        [HttpPost]
-        public PartialViewResult Partial1(Admin p)
-        {
-            c.Admins.Add(p);
-            c.SaveChanges();
-            return PartialView();
-        }
+       
 
         [HttpPost]
         public async Task<IActionResult> Register(User user)

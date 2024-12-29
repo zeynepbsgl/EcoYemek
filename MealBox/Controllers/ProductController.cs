@@ -14,7 +14,7 @@ namespace MealBox.Controllers
         public IActionResult Index()
         {
             //Ürünlerle ilişkili category ve yöneticileri dahil ederek status= true ürünleri listeler
-            var product = c.Products.Include(x => x.Category).Include(x => x.Admin).Where(x=>x.Status==true).ToList();
+            var product = c.Products.Include(x => x.Category).Include(x => x.User).Where(x=>x.Status==true).ToList();
             
             return View(product);
         }
@@ -37,6 +37,23 @@ namespace MealBox.Controllers
         [HttpPost]
         public ActionResult NewProduct(Product p)
         {
+
+            // Oturumdan kullanıcı kimliğini al
+            var userIdString = HttpContext.Session.GetString("UserID");
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                // Kullanıcı oturum açmamışsa
+                return RedirectToAction("Login", "Login");
+            }
+
+            // UserID'yi int'e dönüştür
+            var userId = int.Parse(userIdString);
+
+            // Kullanıcı kimliğini ürüne ata
+            p.UserId = userId;
+
+
+
             if (!p.Status.HasValue)
             {
                 p.Status = true;  // Status'ü true olarak ayarlıyoruz.
