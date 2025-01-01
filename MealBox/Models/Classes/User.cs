@@ -13,6 +13,10 @@ namespace MealBox.Models.Classes
         public string Phone { get; set; }
         public string Password { get; set; }
 
+        public double? Latitude { get; set; } // Enlem
+
+        public double? Longitude { get; set; } // Boylam
+
         public ICollection<Product> Products { get; set; }
     }
 

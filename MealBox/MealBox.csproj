@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\weblogin\images\bg.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="wwwroot\weblogin\css\font-awesome.css" />
     <None Include="wwwroot\weblogin\css\popup-box.css" />
     <None Include="wwwroot\weblogin\css\style.css" />
@@ -16,7 +20,6 @@
     <None Include="wwwroot\weblogin\fonts\fontawesome-webfont.woff" />
     <None Include="wwwroot\weblogin\fonts\fontawesome-webfont.woff2" />
     <None Include="wwwroot\weblogin\fonts\FontAwesome.otf" />
-    <None Include="wwwroot\weblogin\images\bg.jpg" />
     <None Include="wwwroot\weblogin\index.html" />
     <None Include="wwwroot\weblogin\js\jquery-2.1.4.min.js" />
     <None Include="wwwroot\weblogin\js\jquery.magnific-popup.js" />
@@ -35,6 +38,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Pictures\" />
+    <Folder Include="wwwroot\weblogin\images\" />
   </ItemGroup>
 
 </Project>

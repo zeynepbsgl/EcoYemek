@@ -47,7 +47,7 @@ namespace MealBox.Models.Classes
         public User User { get; set; }    // Navigation Property
     
 
-    [Column(TypeName = "Varchar")]
+        [Column(TypeName = "Varchar")]
         [StringLength(50)]
         public bool? Solded { get; set; }
 
@@ -55,6 +55,8 @@ namespace MealBox.Models.Classes
         public double? Latitude { get; set; } // Enlem
 
         public double? Longitude { get; set; } // Boylam
+
+        public double? Distance { get; set; }
 
     }
 }

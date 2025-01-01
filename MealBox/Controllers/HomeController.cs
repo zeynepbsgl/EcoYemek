@@ -20,9 +20,39 @@ namespace MealBox.Controllers
 
         public IActionResult Index()
         {
+          
             var homeProducts = c.Products.Where(p => p.Status == true).ToList();
             return View(homeProducts);
         }
+        [HttpPost]
+        public IActionResult GetUserLocation(double latitude, double longitude)
+        {
+            // Kullanýcýnýn ID'sini session'dan alýyoruz
+            var userIdString = HttpContext.Session.GetString("UserID");
+
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return Json(new { success = false, message = "Kullanýcý giriþi yapýlmamýþ" });
+            }
+
+            int userId = int.Parse(userIdString);
+            var user = c.Users.FirstOrDefault(u => u.Id == userId);
+
+            if (user != null)
+            {
+                // Kullanýcýnýn konum bilgisini güncelliyoruz
+                user.Latitude = latitude;
+                user.Longitude = longitude;
+                c.SaveChanges();  // Deðiþiklikleri veritabanýna kaydediyoruz
+                return Json(new { success = true, message = "Konum baþarýyla kaydedildi" });
+            }
+
+            return Json(new { success = false, message = "Kullanýcý bulunamadý" });
+        }
+
+
+
+
 
         public IActionResult Privacy()
         {

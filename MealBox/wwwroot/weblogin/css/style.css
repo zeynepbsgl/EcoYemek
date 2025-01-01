@@ -120,10 +120,9 @@ a:focus, a:hover {
 	outline: none;
 }
 body {
-    padding: 3em 0;
-    background: url(../images/bg.jpg); 
-	background-attachment:fixed;
-	background-size:cover;
+	padding: 3em 0;
+	background: url(../fonts/sebze.jpg);
+	background-size: cover !important;
 }
 p{
 	font-family: 'Open Sans', sans-serif;
