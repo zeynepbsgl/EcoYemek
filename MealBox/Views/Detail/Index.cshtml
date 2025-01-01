@@ -1,4 +1,5 @@
-﻿
+﻿@using MealBox.Models.Classes;
+@model List<Product>
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
@@ -29,45 +30,41 @@
     <link href="~/Web/css/style.css" rel="stylesheet">
 </head>
 
-    <!-- Shop Detail Start -->
+
+@foreach (var p in Model)
+{
+     <!-- Shop Detail Start -->
     <div class="container-fluid pb-5">
         <div class="row px-xl-5">
             <div class="col-lg-5 mb-30">
                 <div id="product-carousel" class="carousel slide" data-ride="carousel">
                     <div class="carousel-inner bg-light">
                         <div class="carousel-item active">
-                            <img class="w-100 h-100" src="~/Web/img/product-1.jpg" alt="Image">
+                            <img class="w-100 h-100" src="@p.Image" alt="Image">
                         </div>
-                       
+
                     </div>
-                    
+
                 </div>
             </div>
 
             <div class="col-lg-7 h-auto mb-30">
                 <div class="h-100 bg-light p-30">
-                    <h3>Product Name Goes Here</h3>
-                    <div class="d-flex mb-3">
-                        <div class="text-primary mr-2">
-                            <small class="fas fa-star"></small>
-                            <small class="fas fa-star"></small>
-                            <small class="fas fa-star"></small>
-                            <small class="fas fa-star-half-alt"></small>
-                            <small class="far fa-star"></small>
-                        </div>
-                        <small class="pt-1">(99 Reviews)</small>
-                    </div>
-                <h3 class="font-weight-semi-bold mb-4">150.00₺</h3>
-                    <p class="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit
-                        clita ea. Sanc ipsum et, labore clita lorem magna duo dolor no sea
-                        Nonumy</p>
-                    
-                    
-                    
+                    <h3>@p.ProductName</h3>
+
+                    <h3 class="font-weight-semi-bold mb-4">@p.Price ₺</h3>
+                    <p class="mb-4">
+                       @p.ProductDescription
+                    </p>
+                    <h5 class="mb-4">
+                       Son Kullanma Tarihi: @p.skt
+                    </h5>
+
+
                     <div class="d-flex pt-2">
                         <strong class="text-dark mr-2">Satıcı Profiline Git:</strong>
                         <div class="d-inline-flex">
-                           
+
                             <a class="text-dark px-2" href="">
                                 <i class="fas fa-user"></i>
                             </a>
@@ -87,8 +84,7 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="tab-pane-1">
                             <h4 class="mb-3">Product Description</h4>
-                            <p>Eos no lorem eirmod diam diam, eos elitr et gubergren diam sea. Consetetur vero aliquyam invidunt duo dolores et duo sit. Vero diam ea vero et dolore rebum, dolor rebum eirmod consetetur invidunt sed sed et, lorem duo et eos elitr, sadipscing kasd ipsum rebum diam. Dolore diam stet rebum sed tempor kasd eirmod. Takimata kasd ipsum accusam sadipscing, eos dolores sit no ut diam consetetur duo justo est, sit sanctus diam tempor aliquyam eirmod nonumy rebum dolor accusam, ipsum kasd eos consetetur at sit rebum, diam kasd invidunt tempor lorem, ipsum lorem elitr sanctus eirmod takimata dolor ea invidunt.</p>
-                            <p>Dolore magna est eirmod sanctus dolor, amet diam et eirmod et ipsum. Amet dolore tempor consetetur sed lorem dolor sit lorem tempor. Gubergren amet amet labore sadipscing clita clita diam clita. Sea amet et sed ipsum lorem elitr et, amet et labore voluptua sit rebum. Ea erat sed et diam takimata sed justo. Magna takimata justo et amet magna et.</p>
+                           <p>@p.ProductDescription</p>
                         </div>
                         <div class="tab-pane fade" id="tab-pane-2">
                             <h4 class="mb-3">Additional Information</h4>
@@ -108,7 +104,7 @@
                                         <li class="list-group-item px-0">
                                             Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
                                         </li>
-                                      </ul> 
+                                    </ul>
                                 </div>
                                 <div class="col-md-6">
                                     <ul class="list-group list-group-flush">
@@ -124,7 +120,7 @@
                                         <li class="list-group-item px-0">
                                             Takimata ea clita labore amet ipsum erat justo voluptua. Nonumy.
                                         </li>
-                                      </ul> 
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -186,9 +182,10 @@
         </div>
     </div>
     <!-- Shop Detail End -->
+}
 
 
-    <!-- Products Start -->
+  @*   <!-- Products Start -->
     <div class="container-fluid py-5">
         <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4"><span class="bg-secondary pr-3">Bunlara da Göz Atabilirsin</span></h2>
         <div class="row px-xl-5">
@@ -324,3 +321,4 @@
         </div>
     </div>
     <!-- Products End -->
+ *@

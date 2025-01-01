@@ -9,17 +9,62 @@ namespace MealBox.Controllers
 {
     [AllowAnonymous]
     public class ProductController : Controller
+
     {
+      
+
         Context c = new Context();
         public IActionResult Index()
         {
-            //Ürünlerle ilişkili category ve yöneticileri dahil ederek status= true ürünleri listeler
-            var product = c.Products.Include(x => x.Category).Include(x => x.User).Where(x=>x.Status==true).ToList();
-            
-            return View(product);
+           
+            var userIdString = HttpContext.Session.GetString("UserID");
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            var userId = int.Parse(userIdString);
+            var user = c.Users.Find(userId);
+
+            if (user == null || user.Latitude == null || user.Longitude == null)
+            {
+                return RedirectToAction("Login", "Login");
+            }
+
+            var products = c.Products
+                .Include(x => x.Category)
+                .Include(x => x.User)
+                .Where(x => x.Status == true)
+                .ToList();
+
+            // Mesafeleri hesapla ve kaydet
+            foreach (var product in products)
+            {
+                if (product.Latitude.HasValue && product.Longitude.HasValue)
+                {
+                    // Veritabanındaki koordinatları doğru formatta düzelt
+                    double correctedLatitude = CorrectCoordinateFormat(product.Latitude.Value);
+                    double correctedLongitude = CorrectCoordinateFormat(product.Longitude.Value);
+
+                    // Kullanıcının ve ürünün mesafesini hesapla
+                    double distance = CalculateDistance(user.Latitude.Value, user.Longitude.Value, correctedLatitude, correctedLongitude);
+                    product.Distance = distance;  // Mesafeyi ürüne ata
+                }
+                else
+                {
+                    product.Distance = 0;  // Eğer ürünün konumu yoksa mesafeyi 0 olarak ayarla
+                }
+            }
+
+            // Veritabanına kaydet
+            c.SaveChanges();
+
+            // Ürünleri mesafeye göre sırala
+            var sortedProducts = products.OrderBy(p => p.Distance).ToList();
+
+            return View(sortedProducts);
         }
-        //Ürün ekleme sayfasına yönlendirme yapar
-        [HttpGet]
+            [HttpGet]
         public ActionResult NewProduct()
         {
             //DropdownList
@@ -71,6 +116,7 @@ namespace MealBox.Controllers
             c.Products.Add(p);
             c.SaveChanges();
 
+
             return RedirectToAction("Index");
 
 
@@ -119,7 +165,53 @@ namespace MealBox.Controllers
 
 
         }
+        private double CorrectCoordinateFormat(double coordinate)
+        {
+       
+
+            if (coordinate.ToString().Length == 8)
+            {
+                double correctedCoordinate = coordinate / 10000000.0;
+                
+                return correctedCoordinate;
+            }
+            else if (coordinate.ToString().Length == 9)
+            {
+                double correctedCoordinate = coordinate / 100000000.0;
+                
+                return correctedCoordinate;
+            }
+
+            return coordinate;
+        }
+
+
+
+        private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
+        {
+            const double EarthRadiusKm = 6371; // Dünya'nın yarıçapı (kilometre)
+
+            var dLat = DegreesToRadians(lat2 - lat1);
+            var dLon = DegreesToRadians(lon2 - lon1);
+
+            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
+                    Math.Cos(DegreesToRadians(lat1)) * Math.Cos(DegreesToRadians(lat2)) *
+                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+
+            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            return EarthRadiusKm * c; // Mesafeyi kilometre cinsinden döndür
+        }
+
+        private double DegreesToRadians(double degrees)
+        {
+            return degrees * Math.PI / 180;
+        }
+
+
+
 
     }
- 
+
+
 }
