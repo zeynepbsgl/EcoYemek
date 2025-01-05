@@ -64,6 +64,7 @@ namespace MealBox.Controllers
 
             return View(sortedProducts);
         }
+       
         [HttpGet]
         public ActionResult NewProduct()
         {

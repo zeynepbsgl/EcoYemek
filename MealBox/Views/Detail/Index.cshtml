@@ -6,6 +6,8 @@
     // ViewData'dan verileri al
     var mainProduct = (Product)ViewData["MainProduct"];
     var relatedProducts = (List<Product>)ViewData["RelatedProducts"];
+    var userComments = (List<Comment>)ViewData["UserComments"];
+}
 }
 
 <head>
@@ -34,54 +36,124 @@
 </head>
 
 
+<body>
 
-<div class="container-fluid pb-5">
-    <!-- Ürün Detayı Başlangıcı -->
-    <div class="row px-xl-5">
-        <div class="col-lg-5 mb-30">
-            <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                <div class="carousel-inner bg-light">
-                    <div class="carousel-item active">
-                        <img class="w-100 h-100" src="@mainProduct.Image" alt="@mainProduct.ProductName">
+    <div class="container-fluid pb-5">
+        <!-- Ürün Detayı Başlangıcı -->
+        <div class="row px-xl-5">
+            <div class="col-lg-5 mb-30">
+                <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner bg-light">
+                        <div class="carousel-item active">
+                            <img class="w-100 h-100" src="@mainProduct.Image" alt="@mainProduct.ProductName">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 h-auto mb-30">
+                <div class="h-100 bg-light p-30">
+                    <h3>@mainProduct.ProductName</h3>
+                    <h3 class="font-weight-semi-bold mb-4">@mainProduct.Price ₺</h3>
+                    <p class="mb-4">@mainProduct.ProductDescription</p>
+                    <h5 class="mb-4">Son Kullanma Tarihi: @mainProduct.skt</h5>
+                </div>
+
+            </div>
+        </div>
+        <!-- Ürün Detayı Sekmeler -->
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="bg-light p-30">
+                    <div class="nav nav-tabs mb-4">
+                        <a class="nav-item nav-link text-dark active" data-toggle="tab" href="#tab-pane-1">Ürün Açıklaması</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-2">Ek Bilgiler</a>
+                        <a class="nav-item nav-link text-dark" data-toggle="tab" href="#tab-pane-3">Yorumlar (@userComments.Count)</a>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="tab-pane-1">
+                            <h4 class="mb-3">Ürün Açıklaması</h4>
+                            <p>@mainProduct.ProductDescription</p>
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-2">
+                            <h4 class="mb-3">Ek Bilgiler</h4>
+                            <p>Ürünle ilgili teknik detaylar ve bilgiler buraya eklenebilir.</p>
+                        </div>
+                        <div class="tab-pane fade" id="tab-pane-3">
+                            <h4 class="mb-3">Kullanıcı Yorumları</h4>
+                            @if (userComments.Any())
+                            {
+                                foreach (var comment in userComments)
+                                {
+                                    <div class="media mb-4">
+                                        <div class="media-body">
+                                            <h6>@comment.CommentUser<small> - <i>@comment.CommentDate.ToShortDateString()</i></small></h6>
+                                            <p>@comment.CommentContent</p>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>Henüz yorum yapılmamış.</p>
+                            }
+                            <h4 class="mb-4">Yorum Yap</h4>
+                            <form action="/Detail/AddComment" method="post">
+                                <input type="hidden" name="productId" value="@mainProduct.ProductID" />
+                                <input type="hidden" name="userId" value="@mainProduct.UserId" />
+                                <div class="form-group">
+                                    <label for="commentContent">Yorumunuz</label>
+                                    <textarea id="commentContent" name="commentContent" cols="30" rows="5" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Gönder" class="btn btn-primary px-3">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-7 h-auto mb-30">
-            <div class="h-100 bg-light p-30">
-                <h3>@mainProduct.ProductName</h3>
-                <h3 class="font-weight-semi-bold mb-4">@mainProduct.Price ₺</h3>
-                <p class="mb-4">@mainProduct.ProductDescription</p>
-                <h5 class="mb-4">Son Kullanma Tarihi: @mainProduct.skt</h5>
-            </div>
+        <br />
 
-        </div>
-    </div>
-    <!-- Ürün Detayı Sonu -->
-    <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
-        <span class="bg-secondary pr-3">Bunlara da Göz Atabilirsin</span>
-    </h2>
-    <div class="row px-xl-5">
-        @foreach (var product in relatedProducts)
-        {
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
-                <!-- Kartın tamamını saran <a> etiketi -->
-                <a href="/Detail/Index/@product.ProductID" class="text-decoration-none">
-                    <div class="product-item bg-light mb-4">
-                        <div class="product-img position-relative overflow-hidden">
-                            <img class="img-fluid w-100" src="@product.Image" alt="@product.ProductName" style="height: 350px;">
-                            <div class="product-action">
-                                <!-- Aksiyon butonları isteğe bağlı -->
+
+        <!-- Ürün Detayı Sonu -->
+        <h2 class="section-title position-relative text-uppercase mx-xl-5 mb-4">
+            <span class="bg-secondary pr-3">Bunlara da Göz Atabilirsin</span>
+        </h2>
+        <div class="row px-xl-5">
+            @foreach (var product in relatedProducts)
+            {
+                <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+                    <!-- Kartın tamamını saran <a> etiketi -->
+                    <a href="/Detail/Index/@product.ProductID" class="text-decoration-none">
+                        <div class="product-item bg-light mb-4">
+                            <div class="product-img position-relative overflow-hidden">
+                                <img class="img-fluid w-100" src="@product.Image" alt="@product.ProductName" style="height: 350px;">
+                                <div class="product-action">
+                                    <!-- Aksiyon butonları isteğe bağlı -->
+                                </div>
+                            </div>
+                            <div class="text-center py-4">
+                                <h6 class="text-truncate">@product.ProductName</h6>
+                                <h5>@product.Price ₺</h5>
+                                <h5>@product.Town / @product.District</h5>
                             </div>
                         </div>
-                        <div class="text-center py-4">
-                            <h6 class="text-truncate">@product.ProductName</h6>
-                            <h5>@product.Price ₺</h5>
-                            <h5>@product.Town / @product.District</h5>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        }
-    </div>
-    <!-- Products End -->
+                    </a>
+                </div>
+            }
+        </div>
+        <!-- Products End -->
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js"></script>
+        <script src="mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js"></script>
+</body>

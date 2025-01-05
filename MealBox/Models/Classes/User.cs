@@ -18,6 +18,8 @@ namespace MealBox.Models.Classes
         public double? Longitude { get; set; } // Boylam
 
         public ICollection<Product> Products { get; set; }
+
+        public ICollection<Comment> Comments { get; set; }
     }
 
 }

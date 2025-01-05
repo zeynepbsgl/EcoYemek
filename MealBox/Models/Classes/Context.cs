@@ -9,6 +9,7 @@ namespace MealBox.Models.Classes
         public DbSet<Category> Categorys { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
 
 
