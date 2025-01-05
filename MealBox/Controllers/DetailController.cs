@@ -3,7 +3,7 @@ using MealBox.Models.Classes;  // Context ve diğer modeller için
 
 namespace MealBox.Controllers
 {
-    public class DetailController : Controller
+    public class DetailController : BaseController
     {
         private readonly Context _context;  // ApplicationDbContext yerine Context
 
