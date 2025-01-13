@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 
 namespace MealBox.Controllers
@@ -58,7 +59,7 @@ namespace MealBox.Controllers
 
             // Veritabanına kaydet
             c.SaveChanges();
-
+            
             // Ürünleri mesafeye göre sırala
             var sortedProducts = products.OrderBy(p => p.Distance).ToList();
 
@@ -168,31 +169,19 @@ namespace MealBox.Controllers
 
 
         }
+
         private double CorrectCoordinateFormat(double coordinate)
         {
-
-
-            if (coordinate.ToString().Length == 8)
+            if (coordinate.ToString().Length >= 8) // 8 veya daha fazla basamaklı değerler için düzeltme
             {
-                double correctedCoordinate = coordinate / 10000000.0;
-
-                return correctedCoordinate;
+                return coordinate / 10000000.0;
             }
-            else if (coordinate.ToString().Length == 9)
-            {
-                double correctedCoordinate = coordinate / 100000000.0;
-
-                return correctedCoordinate;
-            }
-
-            return coordinate;
+            return coordinate; // Zaten doğruysa döndür
         }
-
-
 
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            const double EarthRadiusKm = 6371; // Dünya'nın yarıçapı (kilometre)
+            const double EarthRadiusKm = 6371; // Dünya'nın yarıçapı
 
             var dLat = DegreesToRadians(lat2 - lat1);
             var dLon = DegreesToRadians(lon2 - lon1);
@@ -203,7 +192,7 @@ namespace MealBox.Controllers
 
             var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
 
-            return EarthRadiusKm * c; // Mesafeyi kilometre cinsinden döndür
+            return EarthRadiusKm * c;
         }
 
         private double DegreesToRadians(double degrees)
@@ -211,10 +200,36 @@ namespace MealBox.Controllers
             return degrees * Math.PI / 180;
         }
 
+        public IActionResult TestDistance()
+        {
+            // Test Koordinatları
+            double userLat = 39.92077; // Ankara
+            double userLon = 32.85411; // Ankara
+
+            var testLocations = new List<(string Name, double Latitude, double Longitude)>
+    {
+        ("Istanbul", 41.0082, 28.9784),
+        ("Izmir", 38.4192, 27.1287),
+        ("Sakarya", 40.7488, 30.6002)
+    };
+
+            var results = new List<string>();
+
+            foreach (var location in testLocations)
+            {
+                double distance = CalculateDistance(userLat, userLon, location.Latitude, location.Longitude);
+                results.Add($"Distance to {location.Name}: {distance:F2} km");
+            }
+
+            // Log veya ViewBag ile gönder
+            ViewBag.TestResults = results;
+
+            return View(); // İstersen sonuçları döndürmek için bir View yapabilirsin
+        }
+
+
 
 
 
     }
-
-
 }

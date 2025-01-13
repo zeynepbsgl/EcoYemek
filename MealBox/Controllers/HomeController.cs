@@ -33,7 +33,7 @@ namespace MealBox.Controllers
                                 (!categoryId.HasValue || p.CategoryId == categoryId) &&
                                 (string.IsNullOrEmpty(searchQuery) || p.ProductName.Contains(searchQuery)))
                     .ToList();
-
+                products = products.OrderBy(p => p.Distance).ToList();
                 return View(products);
             }
             catch (Exception ex)

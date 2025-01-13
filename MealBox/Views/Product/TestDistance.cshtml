@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Test Distance Results";
+}
+
+<h1>Test Coordinate Correction Results</h1>
+
+@if (ViewBag.Results != null)
+{
+    <ul>
+        @foreach (var result in ViewBag.Results as List<string>)
+        {
+            <li>@result</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No test results available.</p>
+}
