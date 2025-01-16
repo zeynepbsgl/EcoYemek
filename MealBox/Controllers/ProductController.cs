@@ -1,4 +1,4 @@
-﻿using MealBox.Models.Classes;
+using MealBox.Models.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,7 +17,6 @@ namespace MealBox.Controllers
         Context c = new Context();
         public IActionResult Index()
         {
-
             var userIdString = HttpContext.Session.GetString("UserID");
             if (string.IsNullOrEmpty(userIdString))
             {
@@ -43,12 +42,13 @@ namespace MealBox.Controllers
             {
                 if (product.Latitude.HasValue && product.Longitude.HasValue)
                 {
-                    // Veritabanındaki koordinatları doğru formatta düzelt
-                    double correctedLatitude = CorrectCoordinateFormat(product.Latitude.Value);
-                    double correctedLongitude = CorrectCoordinateFormat(product.Longitude.Value);
-
                     // Kullanıcının ve ürünün mesafesini hesapla
-                    double distance = CalculateDistance(user.Latitude.Value, user.Longitude.Value, correctedLatitude, correctedLongitude);
+                    double distance = CalculateDistance(
+                        user.Latitude.Value,
+                        user.Longitude.Value,
+                        product.Latitude.Value,
+                        product.Longitude.Value
+                    );
                     product.Distance = distance;  // Mesafeyi ürüne ata
                 }
                 else
@@ -59,13 +59,13 @@ namespace MealBox.Controllers
 
             // Veritabanına kaydet
             c.SaveChanges();
-            
+
             // Ürünleri mesafeye göre sırala
             var sortedProducts = products.OrderBy(p => p.Distance).ToList();
 
             return View(sortedProducts);
         }
-       
+
         [HttpGet]
         public ActionResult NewProduct()
         {
@@ -181,18 +181,28 @@ namespace MealBox.Controllers
 
         private double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
         {
-            const double EarthRadiusKm = 6371; // Dünya'nın yarıçapı
+            const double R = 6371.0; // Dünya'nın yarıçapı (km cinsinden)
 
-            var dLat = DegreesToRadians(lat2 - lat1);
-            var dLon = DegreesToRadians(lon2 - lon1);
+            // Dereceyi radyana çevir
+            double lat1Rad = DegreesToRadians(lat1);
+            double lon1Rad = DegreesToRadians(lon1);
+            double lat2Rad = DegreesToRadians(lat2);
+            double lon2Rad = DegreesToRadians(lon2);
 
-            var a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2) +
-                    Math.Cos(DegreesToRadians(lat1)) * Math.Cos(DegreesToRadians(lat2)) *
-                    Math.Sin(dLon / 2) * Math.Sin(dLon / 2);
+            // Koordinatlar arasındaki farklar
+            double dlat = lat2Rad - lat1Rad;
+            double dlon = lon2Rad - lon1Rad;
 
-            var c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+            // Haversine formülü
+            double a = Math.Pow(Math.Sin(dlat / 2), 2) +
+                       Math.Cos(lat1Rad) * Math.Cos(lat2Rad) *
+                       Math.Pow(Math.Sin(dlon / 2), 2);
 
-            return EarthRadiusKm * c;
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            // Mesafeyi hesapla
+            double distance = R * c;
+            return distance;
         }
 
         private double DegreesToRadians(double degrees)
